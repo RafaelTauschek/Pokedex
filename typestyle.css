@@ -1,0 +1,143 @@
+.normal-type-main {
+    background-color: #A0A2A0;
+}
+
+.normal-type-secondary {
+    background-color: #CFCFC3;
+}
+
+.fighting-type-main {
+    background-color: #FF8100;
+}
+
+.fighting-type-secondary {
+    background-color: #CF887C;
+}
+
+.flying-type-main {
+    background-color: #82BAEF;
+}
+
+.flying-type-secondary {
+    background-color: #B5D9FF;
+}
+
+.poison-type-main {
+    background-color: #923FCC;
+}
+
+.poison-type-secondary {
+    background-color: #B486DC;
+}
+
+.ground-type-main {
+    background-color: #92501B;
+}
+
+.ground-type-secondary {
+    background-color: #C09D74;
+}
+
+.rock-type-main {
+    background-color: #B0AA82;
+}
+
+.rock-type-secondary {
+    background-color: #CFC393;
+}
+
+.bug-type-main {
+    background-color: #92A212;
+}
+
+.bug-type-secondary {
+    background-color: #B2D369;
+}
+
+.ghost-type-main {
+    background-color: #703F70;
+}
+
+.ghost-type-secondary {
+    background-color: #997B9A;
+}
+
+.steel-type-main {
+    background-color: #60A2B9;
+}
+
+.steel-type-secondary {
+    background-color: #C3C3CF;
+}
+
+.fire-type-main {
+    background-color: #E72324;
+}
+
+.fire-type-secondary {
+    background-color: #FF7A60;
+}
+
+.water-type-main {
+    background-color: #2481EF;
+}
+
+.water-type-secondary {
+    background-color: #6BB9EB;
+}
+
+.grass-type-main {
+    background-color: #3DA224;
+}
+
+.grass-type-secondary {
+    background-color: #91D08B;
+}
+
+.electric-type-main {
+    background-color: #FAC100;
+}
+
+.electric-type-secondary {
+    background-color: #FFE64C;
+}
+
+.psychic-type-main {
+    background-color: #EF3F7A;
+}
+
+.psychic-type-secondary {
+    background-color: #FF91A6;
+}
+
+.ice-type-main {
+    background-color: #3DD9FF;
+}
+
+.ice-type-secondary {
+    background-color: #FFFFFF;
+}
+
+.dragon-type-main {
+    background-color: #4F60E2;
+}
+
+.dragon-type-secondary {
+    background-color: #889AD1;
+}
+
+.dark-type-main {
+    background-color: #4F3F3D;
+}
+
+.dark-type-secondary {
+    background-color: #837C7C;
+}
+
+.fairy-type-main {
+    background-color: #EF70EF;
+}
+
+.fairy-type-secondary {
+    background-color: #F1B0ED;
+}

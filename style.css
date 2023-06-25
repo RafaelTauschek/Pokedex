@@ -59,8 +59,12 @@ nav {
     padding-right: 16px;
 }
 
+nav img {
+    margin-bottom: 3px;
+}
+
 .navbar input {
-    margin-right: 100px;
+    margin-right: 50px;
 }
 
 /*Pokemon-Cards Main-Section*/
@@ -253,16 +257,28 @@ li:hover {
     margin-top: 5px;
 }
 
+.pokemon-height p {
+    margin-left: 35px;
+}
+
 .pokemon-weight {
     display: flex;
     gap: 20px;
     margin-top: -15px;
 }
 
+.pokemon-weight p {
+    margin-left: 31px
+}
+
 .pokemon-abilities {
     display: flex;
     margin-top: -15px;
     gap: 20px;
+}
+
+.pokemon-abilities p {
+    margin-left: 23px;
 }
 
 .pokemon-egg-groups {
@@ -310,6 +326,20 @@ li:hover {
 .pokemon-abilities p {
     display: flex;
     gap: 5px;
+}
+
+/*Footer*/
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer h2 {
+    display: flex;
+    justify-content: center;
+    color: white;
 }
 
 /*Media Queries*/

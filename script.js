@@ -6,9 +6,7 @@ let pokemonSpecies = [];
 
 async function init() {
     await loadAllPokemonData();
-    console.log(pokemonNames);
     console.log(pokemonDetails);
-    console.log(pokemonSpecies);
     render();
 }
 
@@ -84,7 +82,7 @@ function addPokemonTypes(i) {
     for (let j = 0; j < pokemonDetails[i]['types'].length; j++) {
         const type = pokemonDetails[i]['types'][j];
         pokemonTypes.innerHTML += `<div class="${type['type']['name']}-type-main single-pokemon-type">${type['type']['name']}</div>`;
-    }  
+    }
 }
 
 
@@ -115,12 +113,13 @@ function generatePokemonCardHTML(i, name, id, image) {
 function openPokemonCard(i) {
     let modal = document.getElementById('pokemon-modal');
     let backgroundModal = document.getElementById('pokemon-background-modal');
+    let type = pokemonDetails[i]['types'][0]['type']['name'];
     modal.classList.remove('d-none');
+    modal.classList.add(`${type}-type-secondary`)
     backgroundModal.classList.remove('d-none');
     backgroundModal.addEventListener('click', closePokemonCard);
     modal.innerHTML = '';
     modal.innerHTML += generateSingleCardHTML(i);
-    console.log(i);
     generateAboutSection(i);
 }
 
@@ -130,19 +129,18 @@ function generateSingleCardHTML(i) {
         <div class="single-pokemon-card">
             <div class="single-pokemon-card-top-section">
                 <div class="arrows">
-                <button>$</button>  <button></button>
+                <a class="arrow-btn"><img src="./img/left.png"></a>  <a class="arrow-btn"><img src="./img/right.png"></a>
                 </div>
                 <div class="top-section-name">${pokemonDetails[i]['name']}</div>
                 <div class="top-section-id">${pokemonDetails[i]['id']}</div>
                 <div class="top-section-type" id="top-section-type"></div>
-                <div class="top-section-image"><img src="${pokemonDetails[i]['sprites']['other']['official-artwork']['front_default']}"></div>
+                <div class="pokemon-card-image-container"><img class="top-section-image" src="${pokemonDetails[i]['sprites']['other']['official-artwork']['front_default']}"></div>
             </div>
-        
-            <div class="single-pokemon-card-bottom-section">
+            <div class="single-pokemon-card-bottom-section flex-column">
                 <ul>
-                    <li onclick="showAboutSection(${i})">About</li>
-                    <li onclick="showBaseSection(${i})">Base Stats</li>
-                    <li onclick="showMovesSection(${i})">Moves</li>
+                    <li id="about-section${i}" onclick="generateAboutSection(${i})">About</li>
+                    <li id="base-section${i}" onclick="generateBaseStats(${i})">Base Stats</li>
+                    <li id="move-section${i}" onclick="generateMoves(${i})">Moves</li>
                 </ul>
                 <div class="single-card-content" id="single-card-content"></div>
             </div>
@@ -150,43 +148,111 @@ function generateSingleCardHTML(i) {
     `;
 }
 
+
 function generateAboutSection(i) {
     let content = document.getElementById('single-card-content');
     content.innerHTML = '';
-    content.innerHTML +=  generateAboutHTML(i);
+    content.innerHTML += generateAboutHTML(i);
+    let about = document.getElementById(`about-section${i}`);
+    about.classList.add('li-border-bottom');
 }
 
 
 function generateAboutHTML(i) {
     return `
             <div class="card-about">
-                <div>${pokemonSpecies[i]['flavor_text_entries'][10]['flavor_text']}</div>
-                <div><b>Height: </b><p>${pokemonDetails[i]['height']}</p></div>
-                <div><b>Weight: </b><p>${pokemonDetails[i]['weight']}</p></div>
-                <div><b>Abilities:</b><p id="pokemon-abilities"></p></div>
-                <div class="about-egg-groups"><div><b>Egg Groups:</b></div><div id="pokemon-egg-group"></div></div>
+                <div class="pokemon-description">${pokemonSpecies[i]['flavor_text_entries'][10]['flavor_text']}</div>
+                <div class="pokemon-height"><b>Height: </b><p>${pokemonDetails[i]['height']}</p></div>
+                <div class="pokemon-weight"><b>Weight: </b><p>${pokemonDetails[i]['weight']}</p></div>
+                <div class="pokemon-abilities"><b>Abilities:</b><p id="pokemon-abilities"></p></div>
+                <div class="pokemon-egg-groups"><div><b>Egg Groups:</b></div><div id="pokemon-egg-group"></div></div>
             </div>  
             `;
 }
 
-function generateBaseStats() {
-    let content = document.getElementById('single-card-content');
-    content.innerHTML = '';
-    content.innerHTML += ``;
-}
 
-function generateMoves() {
+function generateBaseStats(i) {
     let content = document.getElementById('single-card-content');
     content.innerHTML = '';
-    content.innerHTML += ``;
+    content.innerHTML += `<canvas id="myChart"></canvas>`;
+    generateChart(i);
 }
 
 
+function generateMoves(i) {
+    let content = document.getElementById('single-card-content');
+    content.innerHTML = '';
+    content.classList.add('moves');
+    content.classList.add('p-relative');
+    content.classList.remove('flex-column');
+
+
+    for (let j = 0; j < pokemonDetails[i]['moves'].length; j++) {
+        const move = pokemonDetails[i]['moves'][j];
+        content.innerHTML += `
+        <div class="pokemon-single-move">${move['move']['name']}</div>
+        `;
+    }
+
+}
 
 
 function closePokemonCard() {
     let modal = document.getElementById('pokemon-modal');
     let backgroundModal = document.getElementById('pokemon-background-modal');
+    modal.classList = '';
+    modal.classList.add('pokemon-modal');
     modal.classList.add('d-none');
     backgroundModal.classList.add('d-none');
+}
+
+
+function baseStats(i) {
+    let stats = pokemonDetails[i]['stats']
+    console.log(stats);
+    let hp = stats[0]['base_stat'];
+    let atk = stats[1]['base_stat'];
+    let def = stats[2]['base_stat'];
+    let spAtk = stats[3]['base_stat'];
+    let spDef = stats[4]['base_stat'];
+    let speed = stats[5]['base_stat'];
+    return {hp, atk, def, spAtk, spDef, speed}
+}
+
+
+function generateChart(i) {
+    const stats = baseStats(i);
+    const labels = ['HP', 'ATK', 'DEF', 'SP-ATK', 'SP-DEF', 'SPEED'];
+    const data = {
+        labels: labels,
+        datasets: [{
+            axis: 'y',
+            data: Object.values(stats),
+            fill: false,
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 205, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(201, 203, 207, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
+    const ctx = document.getElementById('myChart');
+    const config = {
+        type: 'bar',
+        data,
+        options: {
+            indexAxis: 'y',
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    };
+    new Chart(ctx, config);
 }

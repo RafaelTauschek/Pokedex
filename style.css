@@ -22,6 +22,29 @@ body {
     border-bottom: 1px solid rgb(57, 57, 223) !important;
 }
 
+.center {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.m-top20 {
+    margin-top: 20px;
+}
+
+footer {
+    margin-top: 50px;
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0.596);
+}
+
+.flex-end {
+    justify-content: flex-end !important;
+}
+
+.flex-start {
+    justify-content: flex-start !important;
+}
+
 /*Navbar*/
 .navbar {
     display: flex;
@@ -199,6 +222,7 @@ li:hover {
     border-top-right-radius: 2em;
     margin-top: -100px;
     padding: 50px 8px 8px 8px;
+    height: 300px;
 }
 
 .pokemon-description {
@@ -254,7 +278,23 @@ li:hover {
     color: white;
 }
 
+.pokemon-egg-groups {
+    display: flex;
+    flex-direction: row;
+    margin-top: -15px;
+}
 
+.pokemon-egg-groups p {
+    display: flex;
+    gap: 5px;
+}
 
+.pokemon-abilities {
+    display: flex;
+}
 
+.pokemon-abilities p {
+    display: flex;
+    gap: 5px;
+}
 

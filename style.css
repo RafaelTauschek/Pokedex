@@ -46,12 +46,17 @@ footer {
 }
 
 /*Navbar*/
+
+nav {
+    position: sticky !important;
+    top: 0;
+}
+
 .navbar {
     display: flex;
     flex-wrap: nowrap !important;
     padding-left: 16px;
     padding-right: 16px;
-    ;
 }
 
 .navbar input {
@@ -62,6 +67,7 @@ footer {
 
 .content-wrapper {
     margin: 8px;
+    display: flex;
 }
 
 .content {
@@ -112,6 +118,11 @@ footer {
             rgba(255, 255, 255, 0));
 }
 
+.image-container {
+    display: flex;
+    justify-content: center;
+}
+
 
 .pokemon-card-top {
     display: flex;
@@ -154,7 +165,7 @@ footer {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    width: 350px;
+    width: 400px;
     border-radius: 16px;
 }
 
@@ -168,7 +179,7 @@ footer {
 
 
 
-/*Single Pokemon Card Top*/ 
+/*Single Pokemon Card Top*/
 
 .arrows {
     display: flex;
@@ -259,7 +270,8 @@ li:hover {
     gap: 20px;
 }
 
-.moves {
+.single-card-content {
+    display: flex;
     flex-wrap: wrap;
     flex: 1;
     justify-content: center;
@@ -277,6 +289,7 @@ li:hover {
     padding: 3px;
     font-size: 14px;
     color: white;
+    width: max-content;
 }
 
 .pokemon-egg-groups {
@@ -299,3 +312,69 @@ li:hover {
     gap: 5px;
 }
 
+/*Media Queries*/
+
+@media(max-width: 635px) {
+    .pokemon-card {
+        width: 200px;
+    }
+}
+
+@media (max-width: 574px) {
+    .pokemon-card-image {
+        height: 120px;
+    } 
+}
+
+@media(max-width: 427px) {
+    .pokemon-card {
+        width: 185px;
+    }
+}
+
+@media(max-width: 420px) {
+    .pokemon-modal {
+        width: 350px;
+    }
+}
+
+@media(max-width: 397px) {
+    .pokemon-card {
+        width: 160px;
+    }
+
+    .pokemon-card-top {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 370px) {
+    #searchInput {
+        width: 150px;
+    }
+    .pokemon-modal {
+        width: 320px;
+    }
+    .top-section-image {
+        height: 200px;
+    }
+    .card-about {
+        font-size: 16px;
+    }
+}
+
+
+@media (max-height: 700px) {
+    .top-section-image {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-height: 645px) {
+    .arrows {
+        margin-bottom: 0px;
+    }
+    .top-section-name {
+        margin-top: 0px;
+    }
+}

@@ -1,4 +1,4 @@
-let limit = 20;
+let limit = 25;
 let pokemonNames = [];
 let pokemonDetails = [];
 let pokemonSpecies = [];
@@ -24,7 +24,7 @@ function render() {
     for (let i = 0; i < pokemonNames.length; i++) {
         generatePokemonCardContent(i);
     }
-    
+
 }
 
 
@@ -67,10 +67,9 @@ async function loadPokemonSpecies() {
 function generatePokemonCardContent(i) {
     const name = pokemonNames[i];
     const formatedName = name.charAt(0).toUpperCase() + name.slice(1);
-    const id = pokemonDetails[i]['id'];
-    const formatedId = '#' + pokemonDetails[i]['id'].toString().padStart(4, '0');
+    const id = '#' + pokemonDetails[i]['id'].toString().padStart(4, '0');
     const image = pokemonDetails[i]['sprites']['other']['official-artwork']['front_default'];
-    content.innerHTML += generatePokemonCardHTML(i, formatedName, formatedId, image);
+    content.innerHTML += generatePokemonCardHTML(i, formatedName, id, image);
     addPokemonTypes(i);
     addBackgroundColor(i);
 }
@@ -101,15 +100,15 @@ async function loadMore() {
 }
 
 
-function generatePokemonCardHTML(i, formatedName, formatedId, image) {
+function generatePokemonCardHTML(i, formatedName, id, image) {
     return `
     <div onclick="openPokemonCard(${i})" class="pokemon-card" id="pokemon-card${i}">
         <div class="pokemon-card-top">
             <div class="pokemon-name">${formatedName}</div>
-            <div>${formatedId}</div>
+            <div>${id}</div>
         </div>
         <div class="pokemon-card-bottom">
-            <div><img class="pokemon-card-image" src="${image}"></div>
+            <div class="image-container"><img class="pokemon-card-image" src="${image}"></div>
             <div class="pokemon-card-type" id="pokemon-card-type${i}"></div>
         </div> 
     </div>`;
@@ -118,16 +117,26 @@ function generatePokemonCardHTML(i, formatedName, formatedId, image) {
 
 /*Single Pokemon Card Main Section*/
 function openPokemonCard(i) {
-    let modal = document.getElementById('pokemon-modal');
-    let backgroundModal = document.getElementById('pokemon-background-modal');
+    const modal = document.getElementById('pokemon-modal');
+    const backgroundModal = document.getElementById('pokemon-background-modal');
     let type = pokemonDetails[i]['types'][0]['type']['name'];
-    modal.classList = '';
-    modal.classList.add(`${type}-type-secondary`);
-    modal.classList.add('pokemon-modal');
-    backgroundModal.classList.remove('d-none');
-    backgroundModal.addEventListener('click', closePokemonCard);
+    checkClassLists(modal, backgroundModal, type);
     modal.innerHTML = '';
     modal.innerHTML += generateSingleCardHTML(i);
+    checkArrows(i);
+    generateAboutSection(i);
+}
+
+
+function checkClassLists(modal, backgroundModal, type) {
+    modal.classList = '';
+    modal.classList.add(`${type}-type-secondary`, 'pokemon-modal');
+    backgroundModal.classList.remove('d-none');
+    backgroundModal.addEventListener('click', closePokemonCard);
+}
+
+
+function checkArrows(i) {
     if (i === 0) {
         document.getElementById(`left-arrow${i}`).classList.add('d-none');
         document.getElementById(`arrows${i}`).classList.add('flex-end');
@@ -135,7 +144,6 @@ function openPokemonCard(i) {
         document.getElementById(`right-arrow${i}`).classList.add('d.none');
         document.getElementById(`arrows${i}`).classList.add('flex-start');
     }
-    generateAboutSection(i);
 }
 
 
@@ -144,14 +152,15 @@ function filterPokemon() {
     const filter = searchInput.value.toLowerCase();
     const allPokemonCards = document.querySelectorAll('.pokemon-card');
     allPokemonCards.forEach((card) => {
-      const pokemonName = card.querySelector('.pokemon-name').textContent.toLowerCase();
-      if (pokemonName.includes(filter)) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
+        const pokemonName = card.querySelector('.pokemon-name').textContent.toLowerCase();
+        if (pokemonName.includes(filter)) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
     });
-  }
+}
+
 
 function generateSingleCardHTML(i) {
     return `
@@ -197,34 +206,49 @@ function closePokemonCard() {
     let modal = document.getElementById('pokemon-modal');
     let backgroundModal = document.getElementById('pokemon-background-modal');
     modal.classList = '';
-    modal.classList.add('pokemon-modal');
-    modal.classList.add('d-none');
+    modal.classList.add('pokemon-modal', 'd-none');
     backgroundModal.classList.add('d-none');
 }
 
 
 /*Single Pokemon Card - About Section*/
 function generateAboutSection(i) {
-    let content = document.getElementById('single-card-content');
-    content.innerHTML = '';
-    content.innerHTML += generateAboutHTML(i);
+    const sections = getSectionConst(i);
+    const formated = getFormatedVariable(i);
+    sections.content.innerHTML = '';
+    sections.content.innerHTML += generateAboutHTML(i, formated);
     generateAbilities(i);
     generateEggGroup(i);
-    let about = document.getElementById(`about-section${i}`);
-    about.classList.add('li-border-bottom');
+    sections.about.classList.add('li-border-bottom');
+    sections.move.classList.remove('li-border-bottom');
+    sections.base.classList.remove('li-border-bottom');
 }
 
 
-function generateAboutHTML(i) {
+function getFormatedVariable(i) {
+    const height = pokemonDetails[i]['height'];
+    const weight = pokemonDetails[i]['weight'];
+    const mHeight = (height / 10).toFixed(2);
+    const kWeight = (weight / 10).toFixed(2);
+    const ftHeight = (mHeight * 3.28084).toFixed(2);
+    const lbsWeight = (kWeight * 2.20462).toFixed(2);
+    const description = pokemonSpecies[i]['flavor_text_entries'][10]['flavor_text']
+
+    return {mHeight, kWeight, ftHeight, lbsWeight, description}
+}
+
+function generateAboutHTML(i, formated) {
+    const { mHeight, kWeight, ftHeight, lbsWeight, description } = formated;
     return `
             <div class="card-about">
-                <div class="pokemon-description">${pokemonSpecies[i]['flavor_text_entries'][10]['flavor_text']}</div>
-                <div class="pokemon-height"><b>Height: </b><p>${pokemonDetails[i]['height']}</p></div>
-                <div class="pokemon-weight"><b>Weight: </b><p>${pokemonDetails[i]['weight']}</p></div>
-                <div class="pokemon-abilities"><b>Abilities:</b><p id="pokemon-abilities${i}"></p></div>
-                <div class="pokemon-egg-groups"><b>Egg Groups:</b><p id="pokemon-egg-group${i}"></p></div>
-            </div>  
-            `;
+                <div class="pokemon-description">${description}</div>
+                <div class="pokemon-specifications">
+                    <div class="pokemon-height"><b>Height: </b><p>${ftHeight}ft (${mHeight}m)</p></div>
+                    <div class="pokemon-weight"><b>Weight: </b><p>${lbsWeight}lbs (${kWeight}kg)</p></div>
+                    <div class="pokemon-abilities"><b>Abilities:</b><p id="pokemon-abilities${i}"></p></div>
+                    <div class="pokemon-egg-groups"><b>Egg Groups:</b><p id="pokemon-egg-group${i}"></p></div>
+                <div>
+            </div>`;
 }
 
 
@@ -258,11 +282,12 @@ function generateEggGroup(i) {
 
 /*Single Pokemon Card - Stat Section*/
 function generateBaseStats(i) {
-    let about = document.getElementById(`about-section${i}`);
-    about.classList.remove('li-border-bottom');
-    let content = document.getElementById('single-card-content');
-    content.innerHTML = '';
-    content.innerHTML += `<canvas id="myChart"></canvas>`;
+    const sections = getSectionConst(i);
+    sections.about.classList.remove('li-border-bottom');
+    sections.move.classList.remove('li-border-bottom');
+    sections.base.classList.add('li-border-bottom');
+    sections.content.innerHTML = '';
+    sections.content.innerHTML += `<canvas id="myChart"></canvas>`;
     generateChart(i);
 }
 
@@ -318,25 +343,28 @@ function generateChart(i) {
 
 /*Single Pokemon Card - Moves Section*/
 function generateMoves(i) {
-    let about = document.getElementById(`about-section${i}`);
-    about.classList.remove('li-border-bottom');
-    let content = document.getElementById('single-card-content');
-    content.innerHTML = '';
-    content.classList.add('moves');
-    content.classList.add('p-relative');
-    content.classList.remove('flex-column');
+    const sections = getSectionConst(i);
+    sections.about.classList.remove('li-border-bottom');
+    sections.base.classList.remove('li-border-bottom');
+    sections.move.classList.add('li-border-bottom');
+    sections.content.innerHTML = '';
+    sections.content.classList.add('moves', 'p-relative');
+    sections.content.classList.remove('flex-column');
     for (let j = 0; j < pokemonDetails[i]['moves'].length; j++) {
-        const move = pokemonDetails[i]['moves'][j];
-        content.innerHTML += `
-        <div class="pokemon-single-move">${move['move']['name']}</div>
-        `;
+        const moves = pokemonDetails[i]['moves'][j];
+        sections.content.innerHTML += `
+        <div class="pokemon-single-move">${moves['move']['name']}</div>`;
     }
 }
 
 
-
-
-
+function getSectionConst(i) {
+    const about = document.getElementById(`about-section${i}`);
+    const base = document.getElementById(`base-section${i}`);
+    const move = document.getElementById(`move-section${i}`);
+    const content = document.getElementById('single-card-content');
+    return { about, base, move, content }
+}
 
 
 

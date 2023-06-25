@@ -81,6 +81,7 @@ footer {
     border: 2px solid rgba(239, 239, 239, 1);
     border-radius: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
+    width: 200px;
 }
 
 .pokemon-card:hover {

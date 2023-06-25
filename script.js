@@ -66,9 +66,11 @@ async function loadPokemonSpecies() {
 /*Home Page*/
 function generatePokemonCardContent(i) {
     const name = pokemonNames[i];
+    const formatedName = name.charAt(0).toUpperCase() + name.slice(1);
     const id = pokemonDetails[i]['id'];
+    const formatedId = '#' + pokemonDetails[i]['id'].toString().padStart(4, '0');
     const image = pokemonDetails[i]['sprites']['other']['official-artwork']['front_default'];
-    content.innerHTML += generatePokemonCardHTML(i, name, id, image);
+    content.innerHTML += generatePokemonCardHTML(i, formatedName, formatedId, image);
     addPokemonTypes(i);
     addBackgroundColor(i);
 }
@@ -79,7 +81,8 @@ function addPokemonTypes(i) {
     pokemonTypes.innerHTML = '';
     for (let j = 0; j < pokemonDetails[i]['types'].length; j++) {
         const type = pokemonDetails[i]['types'][j];
-        pokemonTypes.innerHTML += `<div class="${type['type']['name']}-type-main single-pokemon-type">${type['type']['name']}</div>`;
+        const formatedType = type['type']['name'].charAt(0).toUpperCase() + type['type']['name'].slice(1);
+        pokemonTypes.innerHTML += `<div class="${type['type']['name']}-type-main single-pokemon-type">${formatedType}</div>`;
     }
 }
 
@@ -98,12 +101,12 @@ async function loadMore() {
 }
 
 
-function generatePokemonCardHTML(i, name, id, image) {
+function generatePokemonCardHTML(i, formatedName, formatedId, image) {
     return `
     <div onclick="openPokemonCard(${i})" class="pokemon-card" id="pokemon-card${i}">
         <div class="pokemon-card-top">
-            <div class="pokemon-name">${name}</div>
-            <div>${id}</div>
+            <div class="pokemon-name">${formatedName}</div>
+            <div>${formatedId}</div>
         </div>
         <div class="pokemon-card-bottom">
             <div><img class="pokemon-card-image" src="${image}"></div>
@@ -157,8 +160,8 @@ function generateSingleCardHTML(i) {
                 <div class="arrows" id="arrows${i}">
                 <a id="left-arrow${i}" onclick="lastPokemon(${i})" class="arrow-btn"><img src="./img/left.png"></a>  <a id="right-arrow${i}" onclick="nextPokemon(${i})" class="arrow-btn"><img src="./img/right.png"></a>
                 </div>
-                <div class="top-section-name">${pokemonDetails[i]['name']}</div>
-                <div class="top-section-id">${pokemonDetails[i]['id']}</div>
+                <div class="top-section-name">${pokemonDetails[i]['name'].charAt(0).toUpperCase() + pokemonDetails[i]['name'].slice(1)}</div>
+                <div class="top-section-id">${'#' + pokemonDetails[i]['id'].toString().padStart(4, '0')}</div>
                 <div class="top-section-type" id="top-section-type"></div>
                 <div class="pokemon-card-image-container"><img class="top-section-image" src="${pokemonDetails[i]['sprites']['other']['official-artwork']['front_default']}"></div>
             </div>

@@ -124,6 +124,7 @@ function startLoadingAnimation() {
     loadingScreen.classList.remove('d-none');
 }
 
+
 function stopLoadingAnimation() {
     const button = document.getElementById('load-btn');
     const loadingScreen = document.getElementById('loading-screen');

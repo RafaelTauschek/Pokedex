@@ -1,9 +1,9 @@
 /*Basic Designs*/
 body {
-    margin: 0;
+    margin: 0px;
     font-family: 'Roboto', sans-serif !important;
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
 }
 
 .d-none {
@@ -60,6 +60,7 @@ footer {
 nav {
     position: sticky !important;
     top: 0;
+    z-index: 9999;
 }
 
 .navbar {
@@ -81,8 +82,9 @@ nav img {
 /*Pokemon-Cards Main-Section*/
 
 .content-wrapper {
-    margin: 8px;
+    margin-top: 8px;
     display: flex;
+    max-width: 100vw;
 }
 
 .content {
@@ -174,16 +176,19 @@ nav img {
 
 /*Loading Screen*/
 
+
 .loading-screen {
     position: fixed;
     z-index: 9999;
-    top: 50%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .loading-screen img {
-    animation: rotate 4s ;
+    animation: rotate 10s infinite;
+    object-fit: contain;
+    height: 100px;
 }
 
 @keyframes rotate {
@@ -270,6 +275,8 @@ li:hover {
     background-color: white;
     border-top-left-radius: 2em;
     border-top-right-radius: 2em;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
     margin-top: -100px;
     padding: 50px 8px 8px 8px;
     height: 300px;
@@ -432,6 +439,9 @@ footer h2 {
     .top-section-image {
         margin-bottom: 30px;
     }
+    .pokemon-modal {
+        margin-top: 10px;
+    }
 }
 
 @media (max-height: 645px) {
@@ -442,3 +452,4 @@ footer h2 {
         margin-top: 0px;
     }
 }
+

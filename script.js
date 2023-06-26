@@ -5,8 +5,10 @@ let pokemonSpecies = [];
 
 
 async function init() {
+    startLoadingAnimation();
     await loadAllPokemonData();
     render();
+    stopLoadingAnimation();
 }
 
 
@@ -19,7 +21,7 @@ async function loadAllPokemonData() {
 
 function render() {
     document.getElementById('searchInput').addEventListener('input', filterPokemon);
-    let content = document.getElementById('content');
+    const content = document.getElementById('content');
     content.innerHTML = '';
     for (let i = 0; i < pokemonNames.length; i++) {
         generatePokemonCardContent(i);
@@ -96,6 +98,8 @@ function addBackgroundColor(i) {
 
 
 async function loadMore() {
+    const button = document.getElementById('load-btn');
+    button.disabled = true;
     await init();
 }
 
@@ -115,11 +119,25 @@ function generatePokemonCardHTML(i, formatedName, id, image) {
 }
 
 
+function startLoadingAnimation() {
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.classList.remove('d-none');
+}
+
+function stopLoadingAnimation() {
+    const button = document.getElementById('load-btn');
+    const loadingScreen = document.getElementById('loading-screen');
+    button.disabled = false;
+    loadingScreen.classList.add('d-none');
+}
+
+
 /*Single Pokemon Card Main Section*/
 function openPokemonCard(i) {
+    document.getElementById('content').classList.add('f-blur');
     const modal = document.getElementById('pokemon-modal');
     const backgroundModal = document.getElementById('pokemon-background-modal');
-    let type = pokemonDetails[i]['types'][0]['type']['name'];
+    const type = pokemonDetails[i]['types'][0]['type']['name'];
     checkClassLists(modal, backgroundModal, type);
     modal.innerHTML = '';
     modal.innerHTML += generateSingleCardHTML(i);
@@ -167,7 +185,7 @@ function generateSingleCardHTML(i) {
         <div class="single-pokemon-card">
             <div class="single-pokemon-card-top-section">
                 <div class="arrows" id="arrows${i}">
-                <a id="left-arrow${i}" onclick="lastPokemon(${i})" class="arrow-btn"><img src="./img/left.png"></a>  <a id="right-arrow${i}" onclick="nextPokemon(${i})" class="arrow-btn"><img src="./img/right.png"></a>
+                <a id="left-arrow${i}" onclick="lastPokemon(${i})" class="arrow-btn c-pointer"><img src="./img/left.png"></a>  <a id="right-arrow${i}" onclick="nextPokemon(${i})" class="arrow-btn c-pointer"><img src="./img/right.png"></a>
                 </div>
                 <div class="top-section-name">${pokemonDetails[i]['name'].charAt(0).toUpperCase() + pokemonDetails[i]['name'].slice(1)}</div>
                 <div class="top-section-id">${'#' + pokemonDetails[i]['id'].toString().padStart(4, '0')}</div>
@@ -176,9 +194,9 @@ function generateSingleCardHTML(i) {
             </div>
             <div class="single-pokemon-card-bottom-section flex-column">
                 <ul>
-                    <li id="about-section${i}" onclick="generateAboutSection(${i})">About</li>
-                    <li id="base-section${i}" onclick="generateBaseStats(${i})">Base Stats</li>
-                    <li id="move-section${i}" onclick="generateMoves(${i})">Moves</li>
+                    <li class="c-pointer" id="about-section${i}" onclick="generateAboutSection(${i})">About</li>
+                    <li class="c-pointer" id="base-section${i}" onclick="generateBaseStats(${i})">Base Stats</li>
+                    <li class="c-pointer" id="move-section${i}" onclick="generateMoves(${i})">Moves</li>
                 </ul>
                 <div class="single-card-content" id="single-card-content"></div>
             </div>
@@ -203,8 +221,9 @@ function lastPokemon(i) {
 
 
 function closePokemonCard() {
-    let modal = document.getElementById('pokemon-modal');
-    let backgroundModal = document.getElementById('pokemon-background-modal');
+    document.getElementById('content').classList.remove('f-blur');
+    const modal = document.getElementById('pokemon-modal');
+    const backgroundModal = document.getElementById('pokemon-background-modal');
     modal.classList = '';
     modal.classList.add('pokemon-modal', 'd-none');
     backgroundModal.classList.add('d-none');

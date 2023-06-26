@@ -21,14 +21,14 @@
 <body onload="init()">
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a href="#" class="navbar-brand" href="#">
                 <img src="./img/Pokeball.png" width="30" height="30" class="d-inline-block align-text-center">
                 Pokedex
             </a>
         </div>
         <input type="text" id="searchInput" placeholder="Search here...">
     </nav>
-
+    <div id="loading-screen" class="loading-screen d-none"><img src="./img/Pokeball.png"></div>
     <div id="pokemon-background-modal" class="d-none"></div>
     <div class="pokemon-modal d-none" id="pokemon-modal">
     </div>
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div class="center m-top20"><button class="btn btn-danger" onclick="loadMore()">Load more pokemon</button></div>
+    <div class="center m-top20"><button id="load-btn" class="btn btn-danger" onclick="loadMore()">Load more pokemon</button></div>
 
     <footer>
         <h2>Rafaels Pokedex</h2>

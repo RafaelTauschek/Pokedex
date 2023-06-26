@@ -2,6 +2,7 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif !important;
+    scroll-behavior: smooth;
 }
 
 .d-none {
@@ -45,6 +46,14 @@ footer {
     justify-content: flex-start !important;
 }
 
+.c-pointer {
+    cursor: pointer;
+}
+
+.f-blur {
+    filter: blur(1px);
+}
+
 /*Navbar*/
 
 nav {
@@ -65,6 +74,7 @@ nav img {
 
 .navbar input {
     margin-right: 50px;
+    cursor: pointer;
 }
 
 /*Pokemon-Cards Main-Section*/
@@ -92,6 +102,7 @@ nav img {
     border-radius: 10px;
     transition: transform 0.3s, box-shadow 0.3s;
     width: 200px;
+    cursor: pointer;
 }
 
 .pokemon-card:hover {
@@ -160,6 +171,28 @@ nav img {
     justify-content: center;
 }
 
+/*Loading Screen*/
+
+.loading-screen {
+    position: fixed;
+    z-index: 9999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loading-screen img {
+    animation: rotate 4s ;
+}
+
+@keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 
 /*Open Card Modal*/
 
